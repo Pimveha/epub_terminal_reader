@@ -1,5 +1,6 @@
-import ebooklib
+# import ebooklib
 from ebooklib import epub
+import bs4
 
 
 def get_book():
@@ -25,23 +26,28 @@ def select_chapter(book_obj):
         # print('----------------------------------')
     while (chapter_index := input("select a chapter: ")) not in content_dict.keys():
         chapter_index = input("select a chapter: ")
-    return content_dict[chapter_index]
+    # return content_dict[chapter_index]
+    return chapter_index
     # print(item.get_content())
     # with open(f"./{docname}/{item.get_name().split('/')[-1]}", "r") as f:
     #     print(f.read())
     #     # f.write(item.get_content())
 
 
-def open_chapter(book_obj, chapter_title):
-    chapter = book_obj.get_item_with_nav_label(chapter_title)
-    content = chapter.content
-    print(str(content))
+def open_chapter(book_obj, chapter_index):
+    chapter = book_obj.get_item_with_href(
+        book_obj.toc[int(chapter_index)].href)
+    chapter_content = chapter.get_content()
+    soup = bs4.BeautifulSoup(chapter_content, 'html.parser')
+    text = soup.get_text()
+    print(text)
+    # print(text.split("\n"))
 
 
 def main():
     book_obj = get_book()
-    chapter = select_chapter(book_obj)
-    print(book_obj, chapter)
+    chapter_index = select_chapter(book_obj)
+    open_chapter(book_obj, chapter_index)
 
 
 if __name__ == "__main__":
