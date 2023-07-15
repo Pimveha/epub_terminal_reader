@@ -1,14 +1,27 @@
 # import ebooklib
+import glob
 from ebooklib import epub
 import bs4
 
 
 def get_book():
-    book = epub.read_epub('./Infinite_Jest__David_Foster_Wallace.epub')
+    book_opt_dict = {}
+    print("Books:")
+    for i, book in enumerate(glob.glob("./library/*.epub"), 1):
+        # print(str(i), book.split("/")[-1])
+        print(str(i) + ": " + book.split("/")[-1])
+        # print(str(i) + "\t" + book.split("/")[-1])
+        book_opt_dict[str(i)] = book
+
+    while (book_indx := input("select a book: ")) not in book_opt_dict.keys():
+        print("this is not a valid book index")
+        book_indx = input("select a book: ")
+    # print(book_opt_dict[book_indx])
+    # return book_opt_dict[book_indx]
+    book = epub.read_epub(book_opt_dict[book_indx])
     return book
 
-
-# docname = "inf_jest"
+    # docname = "inf_jest"
 
 
 def select_chapter(book_obj):
