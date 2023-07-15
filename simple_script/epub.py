@@ -39,9 +39,14 @@ def open_chapter(book_obj, chapter_index):
         book_obj.toc[int(chapter_index)].href)
     chapter_content = chapter.get_content()
     soup = bs4.BeautifulSoup(chapter_content, 'html.parser')
-    text = soup.get_text()
-    print(text)
-    # print(text.split("\n"))
+
+    bigga_print_list = []
+    for string in soup.strings:
+        print_me = repr(string)[1:-1]
+        print_me = print_me.replace("\n        ", " ")
+        print_me = print_me.replace("         ", " ")
+        print_me = print_me.replace("\\n", "")
+        print(print_me)
 
 
 def main():
