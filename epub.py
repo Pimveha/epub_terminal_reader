@@ -59,6 +59,8 @@ def open_chapter(book_obj, chapter_index):
         print_me = print_me.replace("\n        ", " ")
         print_me = print_me.replace("         ", " ")
         print_me = print_me.replace("\\n", "")
+        print_me = print_me.replace(u'\\xa0', u'')
+
         print("  " + print_me)
 
 
